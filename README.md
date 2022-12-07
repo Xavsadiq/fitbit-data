@@ -6,7 +6,7 @@ Create a .env to store access token and database/table details.
 
 ## Tech
 
-Queried in Python 
-Stored in BigQuery
-Transformed in dbt 
+Queried in Python <br />
+Stored in BigQuery <br />
+Transformed in dbt <br />
 Visualised in Looker Studio
