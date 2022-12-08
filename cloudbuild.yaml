@@ -8,4 +8,4 @@ steps:
   - --region=europe-west2
   - --source=.
   - --trigger-http
-  - --runtime=RUNTIME
+  - --runtime=python310
