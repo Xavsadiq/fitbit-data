@@ -4,18 +4,12 @@ import pandas as pd
 import datetime
 import functions_framework
 import google.cloud.bigquery as bigquery
-from google.cloud import secretmanager
 
 @functions_framework.http
 def main(request):
     # Get fitbit access token // stored in google secret manager
 
-    project_id = os.environ["PROJECT_ID"]
-
-    client = secretmanager.SecretManagerServiceClient()
-    name = f"projects/{project_id}/secrets/my_secret_value/versions/latest"
-    response = client.access_secret_version(name=name)
-    access_token = response.payload.data.decode("UTF-8")
+    access_token = os.environ.get('fitbit_access_token')
 
     # Connect to BigQuery
     client = bigquery.Client()
