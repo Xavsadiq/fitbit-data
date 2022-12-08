@@ -68,6 +68,6 @@ def main(request):
 
     return (
         "Loaded {} rows and {} columns to {}".format(
-            table.num_rows, len(table.schema), table_id
+            len(df.index), len(df.columns), table_id
         )
     )
