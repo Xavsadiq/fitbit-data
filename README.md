@@ -1,6 +1,6 @@
 # Python script to ingest Fitbit heart rate data
 
-Private repo for deployment of fitbit data to cloud function.
+Repo for cloud function. Updates BigQuery table daily with fitbit heart rate data.
 
 ## Tech
 

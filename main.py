@@ -7,8 +7,8 @@ import google.cloud.bigquery as bigquery
 
 @functions_framework.http
 def main(request):
-    # Get fitbit access token // stored in google secret manager
 
+    # Get fitbit access token stored in google secrets
     access_token = os.environ.get('fitbit_access_token')
 
     # Connect to BigQuery
@@ -16,9 +16,9 @@ def main(request):
     table_id = os.environ.get('bq_fitbit_heart_rate_table')
 
     # Define time period for query
-    day_range_length = 90
+    day_range_length = 1
     start_date = str((datetime.datetime.now() - datetime.timedelta(days=day_range_length)).date())
-    end_date = str(datetime.datetime.date(datetime.datetime.now())) 
+    end_date = str(datetime.datetime.date(datetime.datetime.now())) # only taking yesterdays date so 'end_date' isn't needed
 
     # Update your start and end dates here in yyyy-mm-dd format 
     start = datetime.datetime.strptime(start_date, "%Y-%m-%d")
@@ -26,7 +26,7 @@ def main(request):
 
     # Fitbit implicit grant flow
     header = { 'Authorization': 'Bearer {}'.format(access_token) }
-    response = requests.get("https://api.fitbit.com/1/user/-/activities/heart/date/"+start_date+"/"+end_date+".json", headers=header).json()
+    response = requests.get("https://api.fitbit.com/1/user/-/activities/heart/date/"+start_date+"/1d.json", headers=header).json()
 
     try:
         print(response['activities-heart'])
@@ -57,11 +57,7 @@ def main(request):
             bigquery.SchemaField("fat_burn_zone", bigquery.enums.SqlTypeNames.STRING),
             bigquery.SchemaField("cardio_zone", bigquery.enums.SqlTypeNames.STRING),
             bigquery.SchemaField("peak_zone", bigquery.enums.SqlTypeNames.STRING),
-        ],
-        # Optionally, set the write disposition. BigQuery appends loaded rows
-        # to an existing table by default, but with WRITE_TRUNCATE write
-        # disposition it replaces the table with the loaded data.
-        write_disposition="WRITE_TRUNCATE",
+        ]
     )
 
     job = client.load_table_from_dataframe(df, table_id, job_config=job_config)  # Make an API request.
