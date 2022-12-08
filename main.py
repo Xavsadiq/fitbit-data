@@ -4,23 +4,21 @@ import pandas as pd
 import datetime
 import functions_framework
 import google.cloud.bigquery as bigquery
-from google.oauth2 import service_account
+from google.cloud import secretmanager
 
 @functions_framework.http
 def main(request):
-    # Fitbit access token
+    # Get fitbit access token // stored in google secret manager
 
-    access_token = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyMzk0WEoiLCJzdWIiOiJCNDZYMzQiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJybG9jIHJhY3QgcmhyIHJudXQiLCJleHAiOjE3MDE4MTAxNTEsImlhdCI6MTY3MDMyNDMzOH0.LNdjtvFugG7jjU1LwP7Wu3naIWqp7Gbc37XJcSvv5HU"
+    project_id = os.environ["PROJECT_ID"]
 
-    # Auth for google cloud using service account
-    key_path = os.getcwd()+"/service_account.json"
-
-    credentials = service_account.Credentials.from_service_account_file(
-    key_path, scopes=["https://www.googleapis.com/auth/cloud-platform"],
-    )
+    client = secretmanager.SecretManagerServiceClient()
+    name = f"projects/{project_id}/secrets/my_secret_value/versions/latest"
+    response = client.access_secret_version(name=name)
+    access_token = response.payload.data.decode("UTF-8")
 
     # Connect to BigQuery
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client()
     table_id = "portfolio-tracker-317511.raw_fitbit.heart_rate"
 
     # Define time period for query
