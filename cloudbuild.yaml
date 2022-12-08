@@ -4,8 +4,8 @@ steps:
   - gcloud
   - functions
   - deploy
-  - 'fitbit-heart-rate-ingestion-daily'
-  - --region='europe-west2'
+  - fitbit-heart-rate-ingestion-daily
+  - --region=europe-west2
   - --source=.
   - --trigger-http
   - --runtime=RUNTIME
