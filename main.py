@@ -13,7 +13,7 @@ def main(request):
 
     # Connect to BigQuery
     client = bigquery.Client()
-    table_id = "portfolio-tracker-317511.raw_fitbit.heart_rate"
+    table_id = os.environ.get('bq_fitbit_heart_rate_table')
 
     # Define time period for query
     day_range_length = 90
