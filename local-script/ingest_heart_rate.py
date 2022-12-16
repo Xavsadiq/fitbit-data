@@ -1,10 +1,11 @@
 import requests
 import os
 import pandas as pd
+import datetime
 from dotenv import load_dotenv
 from google.cloud import bigquery
 from google.oauth2 import service_account
-import datetime
+
 
 # Find the .env file that has the fitbit access token
 load_dotenv(os.getcwd()+'/.env.local')
