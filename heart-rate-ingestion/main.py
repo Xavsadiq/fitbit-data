@@ -71,3 +71,5 @@ def main(request):
             print(
                 "{} row inserted into table.".format(df.index)
             )
+
+    return ("Job completed successfully.")
