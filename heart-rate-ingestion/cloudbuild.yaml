@@ -9,3 +9,4 @@ steps:
   - --source=.
   - --trigger-http
   - --runtime=python310
+  dir: "heart-rate-ingestion"
