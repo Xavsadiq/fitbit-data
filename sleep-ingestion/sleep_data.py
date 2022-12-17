@@ -44,8 +44,6 @@ result = []
 df = pd.json_normalize(data)
 df = df.drop(columns=['infoCode', 'type', 'levels.data', 'levels.shortData', 'logType', 'logId', 'isMainSleep'])
 
-print(df)
-
     
 
 
